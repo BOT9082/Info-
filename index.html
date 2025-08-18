@@ -1,232 +1,254 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>BOT TELEGRAM - ZACK PCS</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mes Liens — Bio</title>
+  <meta name="description" content="Tous mes liens officiels : site web, WhatsApp, Telegram, YouTube, email et plus." />
+  <meta property="og:title" content="Mes Liens — Bio" />
+  <meta property="og:description" content="Tous mes liens officiels : site web, WhatsApp, Telegram, YouTube, email et plus." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="" />
+  <meta name="theme-color" content="#0ea5e9" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: #fff;
-      color: #121212;
-      font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
-      min-height: 100vh;
-      width: 100%;
+    :root{
+      --bg: #0b0b0f;
+      --card: #11121a;
+      --muted: #9aa3b2;
+      --text: #e6eaf2;
+      --accent: #0ea5e9; /* cyan-500 */
+      --accent-2: #22c55e; /* green-500 */
+      --ring: rgba(14,165,233,.35);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 18px;
     }
-    .container {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 0 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7fafc; --card:#ffffff; --muted:#5b616e; --text:#101217; --ring: rgba(14,165,233,.25);
+        --shadow: 0 10px 30px rgba(2,6,23,.08);
+      }
     }
-    .lang-switch {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      margin-top: 18px;
-      margin-bottom: 18px;
-      gap: 10px;
-      user-select: none;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      color:var(--text); background:
+        radial-gradient(1200px 800px at 110% -10%, rgba(14,165,233,.15), transparent 60%),
+        radial-gradient(1000px 600px at -10% 110%, rgba(34,197,94,.12), transparent 60%),
+        var(--bg);
+      display:flex; align-items:center; justify-content:center; padding:24px;
     }
-    .flag {
-      width: 30px;
-      height: 22px;
-      cursor: pointer;
-      border-radius: 6px;
-      box-shadow: 0 1px 5px #0002;
-      border: 1px solid #e2e2e2;
-      transition: outline 0.18s;
-      outline: 2.5px solid transparent;
-      display: inline-block;
+    .wrap{width:100%; max-width:520px}
+
+    .card{
+      background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:28px; position:relative; overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
     }
-    .flag.selected {
-      outline: 2.5px solid #2d7ff9;
+    .avatar{
+      width:98px; height:98px; border-radius:999px; display:grid; place-items:center;
+      font-weight:700; font-size:34px; color:var(--text);
+      background: linear-gradient(135deg, var(--accent), #6366f1);
+      border:3px solid rgba(255,255,255,.12); margin:-64px auto 18px auto;
+      box-shadow: 0 10px 30px rgba(14,165,233,.35);
     }
-    /* ajout photo de profil */
-    .profile-pic {
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #111;
-      margin-bottom: 14px;
-      box-shadow: 0 2px 6px #0002;
+    .name{ text-align:center; font-size:22px; font-weight:800; letter-spacing:.2px; }
+    .tag{ text-align:center; color:var(--muted); font-size:14px; margin-top:4px }
+
+    .links{ display:grid; gap:12px; margin-top:22px }
+    .btn{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);
+      padding:16px 18px; background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.04));
+      border:1px solid rgba(255,255,255,.08); border-radius:16px; position:relative; overflow:hidden;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
     }
-    .title {
-      font-size: 1.3em;
-      font-weight: bold;
-      margin-bottom: 8px;
-      letter-spacing: 1px;
-      text-align: center;
-      text-transform: uppercase;
+    .btn:hover{ transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.25); border-color: rgba(255,255,255,.18); }
+    .btn:active{ transform: translateY(0) scale(.99) }
+    .btn .icon{ width:22px; height:22px; flex:0 0 22px; opacity:.95 }
+    .btn small{ color:var(--muted); display:block; font-size:12px; margin-top:2px }
+
+    .badge{
+      position:absolute; top:14px; right:14px; font-size:11px; padding:6px 10px; border-radius:999px;
+      background: rgba(34,197,94,.18); color:#a7f3d0; border:1px solid rgba(34,197,94,.35);
     }
-    .main-name {
-      font-size: 1.5em;
-      font-weight: bold;
-      letter-spacing: 1px;
-      margin-bottom: 2px;
-      text-align: center;
+
+    .cta{
+      margin-top:18px; padding:14px 18px; border-radius:14px; text-align:center; font-weight:700;
+      background: linear-gradient(90deg, var(--accent), #22c55e);
+      color:white; text-decoration:none; display:block; border:0; cursor:pointer;
+      box-shadow: 0 10px 24px var(--ring);
     }
-    .description {
-      font-size: 1.02em;
-      margin-bottom: 28px;
-      text-align: center;
-      background: #f5f5f5;
-      border-radius: 7px;
-      padding: 10px 8px;
-      width: 100%;
-      box-sizing: border-box;
-      font-weight: 500;
-      line-height: 1.5;
-    }
-    .links-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-      margin-bottom: 36px;
-    }
-    .link-card {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      background: #f0f0f0;
-      border-radius: 9px;
-      padding: 15px 15px 10px 15px;
-      text-decoration: none;
-      color: #111;
-      font-size: 1.05em;
-      font-family: inherit;
-      font-weight: 600;
-      border: 2px solid #111;
-      transition: background 0.13s, border 0.13s;
-      margin-bottom: 6px;
-    }
-    .link-card:hover {
-      background: #e0e0e0;
-      border: 2px solid #333;
-    }
-    .link-main {
-      font-size: 1.08em;
-      margin-bottom: 2px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .link-icon {
-      width: 20px;
-      height: 20px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    .link-sub {
-      font-size: 0.93em;
-      color: #555;
-      font-family: inherit;
-      letter-spacing: 1px;
-      margin-top: 2px;
-    }
-    .info-section {
-      width: 100%;
-      margin-top: 12px;
-      margin-bottom: 18px;
-      display: flex;
-      justify-content: center;
-    }
-    .info-card {
-      background: #f8f8f8;
-      border-radius: 10px;
-      border: 2px solid #111;
-      box-shadow: 0 2px 6px #0001;
-      padding: 18px 16px 13px 16px;
-      min-width: 0;
-      max-width: 100%;
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    .info-title {
-      font-weight: bold;
-      letter-spacing: .5px;
-      font-size: 1.08em;
-      margin-bottom: 8px;
-      color: #222;
-    }
-    .info-content {
-      font-size: .99em;
-      color: #353535;
-      font-weight: 500;
-      line-height: 1.6;
-    }
-    .bot-link-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 38px;
-      margin-top: 10px;
-    }
-    .bot-link-card {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      background: #f0f0f0;
-      border-radius: 9px;
-      padding: 15px 15px 12px 15px;
-      text-decoration: none;
-      color: #111;
-      font-size: 1.07em;
-      font-family: inherit;
-      font-weight: 600;
-      border: 2px solid #111;
-      transition: background 0.13s, border 0.13s;
-      margin-bottom: 0;
-      width: 100%;
-      box-sizing: border-box;
-      min-height: 48px;
-    }
-    .bot-link-card:hover {
-      background: #e0e0e0;
-      border: 2px solid #333;
-    }
-    .bot-link-icon {
-      width: 22px;
-      height: 22px;
-      margin-right: 12px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-    @media (max-width: 520px) {
-      .container { max-width: 99vw; }
-      .description { font-size: .97em; padding: 8px 4px; }
-      .main-name { font-size: 1.13em; }
-      .info-card { padding: 12px 6px 10px 8px; }
-      .bot-link-card { padding: 12px 8px 10px 8px; font-size: .99em;}
-    }
+
+    .footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:16px }
+    .footer a{ color:inherit }
+
+    .row{ display:flex; gap:10px }
+    .row .btn{ flex:1 }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="lang-switch">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Flag_of_France.svg" 
-        class="flag selected" id="fr-flag" alt="Français">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" 
-        class="flag" id="en-flag" alt="English">
-    </div>
+  <div class="wrap">
+    <div class="card" role="region" aria-label="Page de liens">
+      <div class="avatar" aria-hidden="true">AS</div>
+      <div class="name">ZACK PCS</div>
+      <div class="tag">.....</div>
 
-    <!-- ajout photo de profil -->
-    <img src="images/profil.jpg" alt="Photo de profil" class="profile-pic">
+      <div class="links" id="links">
+        <a class="btn" href="https://wa.me/225mettre numero wa" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.06 0C5.46 0 .06 5.4.06 12c0 2.11.55 4.05 1.5 5.77L0 24l6.37-1.66A11.84 11.84 0 0 0 12.06 24c6.6 0 11.94-5.4 11.94-12 0-3.2-1.25-6.2-3.48-8.52Zm-8.46 18.33c-2.03 0-3.95-.6-5.55-1.7l-.4-.26-3.76.98 1-3.66-.27-.43A9.7 9.7 0 0 1 2.35 12c0-5.34 4.37-9.69 9.71-9.69 2.6 0 5.04 1.01 6.87 2.84a9.67 9.67 0 0 1 2.85 6.85c0 5.34-4.37 9.7-9.71 9.7Zm5.37-7.26c-.3-.15-1.78-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.19-.17.2-.35.22-.64.07-1.75-.87-2.9-1.56-4.07-3.53-.31-.54.32-.5.9-1.67.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.05 1.03-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.17-1.45-.07-.13-.27-.2-.57-.35Z"/></svg>
+          <div>
+            <strong>WhatsApp</strong>
+            <small>Chat direct • Aucun numero</small>
+          </div>
+        </a>
 
-    <div class="title" id="title">BOT TELEGRAM</div>
-    <div class="main-name" id="main-name">ZACK PCS</div>
-    <div class="description" id="desc">
-      Bienvenue.<br>
-      Je partage des bots pour gagner au casino et d’autres astuces.<br>
-      Découvre et contacte-moi sur Telegram !
+        <a class="btn" href="https://t.me/+eMMgVPXX3clmYWM0" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.04 15.47 8.9 20.7c.74 0 1.06-.32 1.45-.7l3.48-3.33 7.2 5.28c1.32.73 2.27.35 2.64-1.22l4.79-22.42h.01c.42-1.95-.75-2.71-2.02-2.24L1.86 9.35C-.24 10.15-.2 11.27 1.44 11.77l7.04 2.2L21.09 5.3c.59-.36 1.12-.16.68.23L9.04 15.47Z"/></svg>
+          <div>
+            <strong>Telegram</strong>
+            <small></small>
+          </div>
+          <span class="badge">Nouveau</span>
+        </a>
+
+        <a class="btn" href="https://votre-site.com" target="_blank" rel="noopener" aria-label="Site web">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.93 6h-3.48a15.7 15.7 0 0 0-1.15-3.3 8.05 8.05 0 0 1 4.63 3.3ZM12 4.04c.7 1.02 1.27 2.17 1.7 3.42H10.3c.43-1.25 1-2.4 1.7-3.42ZM4.69 14a7.93 7.93 0 0 1 0-4h3.8a17.8 17.8 0 0 0-.09 2c0 .68.03 1.33.09 2h-3.8Zm.88 2h3.48c.29 1.19.69 2.3 1.2 3.3a8.05 8.05 0 0 1-4.66-3.3Zm3.48-8H5.57a8.05 8.05 0 0 1 4.66-3.3c-.5 1- .9 2.11-1.18 3.3Zm3.79 11.96c-.7-1.02-1.27-2.17-1.7-3.42h3.4c-.43 1.25-1 2.4-1.7 3.42ZM16.51 14h3.8a7.93 7.93 0 0 1 0-4h-3.8c.06.67.09 1.32.09 2 0 .68-.03 1.33-.09 2Zm.33 2h3.48a8.05 8.05 0 0 1-4.63 3.3c.46-1 .86-2.11 1.15-3.3ZM9.39 10h5.22c.05.64.08 1.3.08 2 0 .7-.03 1.36-.08 2H9.39A16.7 16.7 0 0 1 9.31 12c0-.7.03-1.36.08-2Zm3.31-6.26A8.05 8.05 0 0 1 18.43 7h-3.48c-.29-1.19-.69-2.3-1.2-3.3Z"/></svg>
+          <div>
+            <strong>Site web</strong>
+            <small>votre-site.com</small>
+          </div>
+        </a>
+
+        <a class="btn" href="https://www.youtube.com/@votre_chaine" target="_blank" rel="noopener" aria-label="YouTube">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3.02 3.02 0 0 0-2.12-2.14C19.73 3.7 12 3.7 12 3.7s-7.73 0-9.38.66A3.02 3.02 0 0 0 .5 6.5 31.66 31.66 0 0 0 0 12c0 1.86.15 3.7.5 5.5.3 1.03 1.1 1.83 2.12 2.13C4.27 20.3 12 20.3 12 20.3s7.73 0 9.38-.67c1.02-.3 1.82-1.1 2.12-2.13.35-1.8.5-3.64.5-5.5 0-1.86-.15-3.7-.5-5.5ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg>
+          <div>
+            <strong>YouTube</strong>
+            <small>@votre_chaine</small>
+          </div>
+        </a>
+
+        <div class="row">
+          <a class="btn" href="mailto:contact@votredomaine.com" aria-label="Email">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>
+            <div>
+              <strong>Email</strong>
+              <small>contact@votredomaine.com</small>
+            </div>
+          </a>
+          <a class="btn" href="tel:+225" aria-label="Appeler">
+            <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.56 0 1 .44 1 1V20c0 .56-.44 1-1 1C10.07 21 3 13.93 3 5c0-.56.44-1 1-1h3.5c.56 0 1 .44 1 1 0 1.24.2 2.45.57 3.57.11.35.03.75-.26 1.02l-2.19 2.2Z"/></svg>
+            <div>
+              <strong>Téléphone</strong>
+              <small>....</small>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <button class="cta" id="copyLink">Copier ce lien de bio</button>
+      <div class="footer">© <span id="year"></span> — Tous droits réservés • <a href="#" id="editLink">Modifier</a></div>
     </div>
+  </div>
+
+  <script>
+    // Personnalisation rapide — change ces variables et la page s'ajuste.
+    const PROFILE = {
+      initials: "AS",
+      name: "ZACK PCS",
+      tagline: "Livraison, groupage & achat — Côte d'Ivoire",
+      avatarUrl: "", // mets un lien d'image si tu veux une vraie photo
+      links: [
+        { label: "WhatsApp", href: "https://wa.me/225 NUMERO", sub: "Chat direct • +225 07 99 45 39 81" },
+        { label: "Telegram", href: "https://t.me/votre_username", sub: "@votre_username", badge: "Nouveau" },
+        { label: "Site web", href: "https://votre-site.com", sub: "votre-site.com" },
+        { label: "YouTube", href: "https://www.youtube.com/@votre_chaine", sub: "@votre_chaine" },
+        { label: "Email", href: "mailto:contact@votredomaine.com", sub: "contact@votredomaine.com" },
+        { label: "Téléphone", href: "tel:+225 NUMERO", sub: "+225 01 02 03 04 05" }
+      ]
+    }
+
+    // Appliquer l'année
+    document.getElementById('year').textContent = new Date().getFullYear()
+
+    // Avatar: si URL fournie, remplacer l'avatar initiales
+    if(PROFILE.avatarUrl){
+      const avatar = document.querySelector('.avatar')
+      avatar.style.background = 'none'
+      avatar.style.border = '0'
+      avatar.style.boxShadow = '0 10px 25px rgba(0,0,0,.25)'
+      avatar.innerHTML = `<img src="${PROFILE.avatarUrl}" alt="Avatar" style="width:100%;height:100%;object-fit:cover;border-radius:999px;"/>`
+    }
+
+    // Nom & tagline
+    document.querySelector('.name').textContent = PROFILE.name
+    document.querySelector('.tag').textContent = PROFILE.tagline
+
+    // Reconstruire la grille de liens depuis PROFILE.links
+    const linkGrid = document.getElementById('links')
+    linkGrid.innerHTML = ''
+
+    const iconMap = {
+      WhatsApp: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.94 11.94 0 0 0 12.06 0C5.46 0 .06 5.4.06 12c0 2.11.55 4.05 1.5 5.77L0 24l6.37-1.66A11.84 11.84 0 0 0 12.06 24c6.6 0 11.94-5.4 11.94-12 0-3.2-1.25-6.2-3.48-8.52Zm-8.46 18.33c-2.03 0-3.95-.6-5.55-1.7l-.4-.26-3.76.98 1-3.66-.27-.43A9.7 9.7 0 0 1 2.35 12c0-5.34 4.37-9.69 9.71-9.69 2.6 0 5.04 1.01 6.87 2.84a9.67 9.67 0 0 1 2.85 6.85c0 5.34-4.37 9.7-9.71 9.7Zm5.37-7.26c-.3-.15-1.78-.88-2.05-.98-.27-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.19-.17.2-.35.22-.64.07-1.75-.87-2.9-1.56-4.07-3.53-.31-.54.32-.5.9-1.67.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51-.17-.01-.37-.01-.57-.01s-.52.07-.79.37c-.27.3-1.05 1.03-1.05 2.5 0 1.47 1.08 2.9 1.23 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.17-1.45-.07-.13-.27-.2-.57-.35Z"/></svg>',
+      Telegram: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9.04 15.47 8.9 20.7c.74 0 1.06-.32 1.45-.7l3.48-3.33 7.2 5.28c1.32.73 2.27.35 2.64-1.22l4.79-22.42h.01c.42-1.95-.75-2.71-2.02-2.24L1.86 9.35C-.24 10.15-.2 11.27 1.44 11.77l7.04 2.2L21.09 5.3c.59-.36 1.12-.16.68.23L9.04 15.47Z"/></svg>',
+      'Site web': '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.93 6h-3.48a15.7 15.7 0 0 0-1.15-3.3 8.05 8.05 0 0 1 4.63 3.3ZM12 4.04c.7 1.02 1.27 2.17 1.7 3.42H10.3c.43-1.25 1-2.4 1.7-3.42ZM4.69 14a7.93 7.93 0 0 1 0-4h3.8a17.8 17.8 0 0 0-.09 2c0 .68.03 1.33.09 2h-3.8Zm.88 2h3.48c.29 1.19.69 2.3 1.2 3.3a8.05 8.05 0 0 1-4.66-3.3Zm3.48-8H5.57a8.05 8.05 0 0 1 4.66-3.3c-.5 1- .9 2.11-1.18 3.3Zm3.79 11.96c-.7-1.02-1.27-2.17-1.7-3.42h3.4c-.43 1.25-1 2.4-1.7 3.42ZM16.51 14h3.8a7.93 7.93 0 0 1 0-4h-3.8c.06.67.09 1.32.09 2 0 .68-.03 1.33-.09 2Zm.33 2h3.48a8.05 8.05 0 0 1-4.63 3.3c.46-1 .86-2.11 1.15-3.3ZM9.39 10h5.22c.05.64.08 1.3.08 2 0 .7-.03 1.36-.08 2H9.39A16.7 16.7 0 0 1 9.31 12c0-.7.03-1.36.08-2Z"/></svg>',
+      YouTube: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3.02 3.02 0 0 0-2.12-2.14C19.73 3.7 12 3.7 12 3.7s-7.73 0-9.38.66A3.02 3.02 0 0 0 .5 6.5 31.66 31.66 0 0 0 0 12c0 1.86.15 3.7.5 5.5.3 1.03 1.1 1.83 2.12 2.13C4.27 20.3 12 20.3 12 20.3s7.73 0 9.38-.67c1.02-.3 1.82-1.1 2.12-2.13.35-1.8.5-3.64.5-5.5 0-1.86-.15-3.7-.5-5.5ZM9.6 15.5V8.5L15.8 12l-6.2 3.5Z"/></svg>',
+      Email: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5L4 8V6l8 5 8-5v2Z"/></svg>',
+      Téléphone: '<svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.56 0 1 .44 1 1V20c0 .56-.44 1-1 1C10.07 21 3 13.93 3 5c0-.56.44-1 1-1h3.5c.56 0 1 .44 1 1 0 1.24.2 2.45.57 3.57.11.35.03.75-.26 1.02l-2.19 2.2Z"/></svg>'
+    }
+
+    PROFILE.links.forEach((item) => {
+      const a = document.createElement('a')
+      a.className = 'btn'
+      a.href = item.href
+      a.target = '_blank'
+      a.rel = 'noopener'
+      a.setAttribute('aria-label', item.label)
+
+      const icon = document.createElement('span')
+      icon.innerHTML = iconMap[item.label] || ''
+
+      const text = document.createElement('div')
+      text.innerHTML = `<strong>${item.label}</strong>${item.sub ? `<small>${item.sub}</small>`: ''}`
+
+      a.appendChild(icon.firstChild)
+      a.appendChild(text)
+
+      if(item.badge){
+        const b = document.createElement('span')
+        b.className = 'badge'
+        b.textContent = item.badge
+        a.appendChild(b)
+      }
+
+      linkGrid.appendChild(a)
+    })
+
+    // Bouton: copier l'URL finale (à coller dans ta bio IG)
+    document.getElementById('copyLink').addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(location.href)
+        toast('Lien copié ✅')
+      }catch(e){ toast('Impossible de copier, appuie longtemps pour copier 🔗') }
+    })
+
+    // Lien "Modifier" — ouvre l'édition rapide via prompt (utile sur mobile)
+    document.getElementById('editLink').addEventListener('click', (e) => {
+      e.preventDefault()
+      const name = prompt('Nom à afficher :', PROFILE.name)
+      if(name){ PROFILE.name = name; document.querySelector('.name').textContent = name }
+      const tagline = prompt('Slogan / description courte :', PROFILE.tagline)
+      if(tagline){ PROFILE.tagline = tagline; document.querySelector('.tag').textContent = tagline }
+      toast('Texte mis à jour ✍️')
+    })
+
+    // Mini toast maison
+    function toast(msg){
+      const t = document.createElement('div')
+      t.textContent = msg
+      Object.assign(t.style, {position:'fixed', left:'50%', bottom:'22px', transform:'translateX(-50%)', padding:'10px 14px', background:'rgba(0,0,0,.75)', color:'#fff', borderRadius:'999px', fontSize:'14px', zIndex:9999, boxShadow:'0 6px 18px rgba(0,0,0,.3)'} )
+      document.body.appendChild(t)
+      setTimeout(()=> t.remove(), 1800)
+    }
+  </script>
+</body>
+</html>
